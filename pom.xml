@@ -1,96 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
-         
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+         http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-    <groupId>com.wakaleo.gameoflife</groupId>
-    <artifactId>gameoflife</artifactId>
+
+    <!-- Información del proyecto -->
+    <groupId>com.example</groupId>
+    <artifactId>game-of-life</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
+    <packaging>jar</packaging>
+
+    <!-- Propiedades del proyecto -->
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.release>11</maven.compiler.release>
-        <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
-        <jacoco.version>0.8.10</jacoco.version>
-        <!-- Otras propiedades -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
+    <!-- Dependencias del proyecto -->
     <dependencies>
-        <!-- Dependencias comunes -->
-    </dependencies>
-    
-    <build>
-        <plugins>
-            <!-- Plugin de compilación -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <release>${maven.compiler.release}</release>
-                </configuration>
-            </plugin>
-            
-            <!-- Plugin de recursos con codificación especificada -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            
-            <!-- Plugin Surefire actualizado -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <!-- Opcional: Añadir argumentos JVM si es necesario -->
-                    <!-- <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine> -->
-                </configuration>
-            </plugin>
-            
-            <!-- Otros plugins -->
-        </plugins>
-    </build>
-    
-    <dependencies>
-        <!-- Actualizar Mockito -->
+        <!-- Dependencia de Mockito Core para pruebas -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.11.0</version> <!-- Usa la última versión disponible -->
+            <version>4.11.0</version>
             <scope>test</scope>
         </dependency>
-        
-        <!-- Eliminar mockito-all si existe -->
-        
-        <!-- Actualizar Spring Framework -->
+
+        <!-- Otras dependencias de tu proyecto -->
+        <!-- Ejemplo:
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.3.23</version>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.20</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.3.23</version>
-        </dependency>
-        
-        <!-- Otras dependencias actualizadas -->
+        -->
     </dependencies>
-    
-    <reporting>
-        <!-- Configuraciones de reportes -->
-    </reporting>
-    
+
+    <!-- Configuración de construcción -->
+    <build>
+        <plugins>
+            <!-- Plugin de compilador de Maven -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin de Surefire para ejecución de pruebas -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <!-- Configuración de argumentos para la JVM -->
+                    <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                </configuration>
+            </plugin>
+
+            <!-- Otros plugins que puedas necesitar -->
+            <!-- Ejemplo:
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            -->
+        </plugins>
+    </build>
 </project>
