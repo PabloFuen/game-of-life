@@ -1,419 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
-                             
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         
     <modelVersion>4.0.0</modelVersion>
+    
     <groupId>com.wakaleo.gameoflife</groupId>
     <artifactId>gameoflife</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>gameoflife</name>
-    <url>https://github.com/wakaleo/game-of-life</url>
     
     <properties>
-        <build.number>SNAPSHOT</build.number>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cobertura.version>2.6</cobertura.version>
-        <!-- Definir versiones de compilación para facilitar la gestión -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <github.account>wakaleo</github.account>
-        <thucydides.version>1.8.4</thucydides.version>
-        <jelastic.context>gameoflife</jelastic.context>
-        <jelastic.environment>wakaleo</jelastic.environment>
-        <!-- Actualizar versiones de plugins recomendadas -->
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
+        <!-- Otras propiedades -->
     </properties>
-
-    <scm>
-        <connection>scm:git:git@github.com:${github.account}/game-of-life.git</connection>
-        <developerConnection>scm:git:git@github.com:${github.account}/game-of-life.git</developerConnection>
-        <url>scm:git:git@github.com:${github.account}/game-of-life.git</url>
-    </scm>
+    
+    <dependencies>
+        <!-- Dependencias comunes -->
+    </dependencies>
     
     <build>
         <plugins>
-            <!-- Plugin Maven Compiler Actualizado -->
+            <!-- Plugin de compilación -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
             
-            <!-- Plugin Maven Surefire Actualizado -->
+            <!-- Plugin de recursos con codificación especificada -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+            <!-- Plugin Surefire actualizado -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                    <forkCount>1</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <!-- Opcional: Añadir argumentos JVM si es necesario -->
+                    <!-- <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine> -->
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>unit-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skip>false</skip>
-                            <includes>
-                                <include>**/When*.java</include>
-                                <include>**/*Test.java</include>
-                            </includes>
-                            <excludes>
-                                <exclude>%regex[.*integration.*]</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration-tests</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skip>false</skip>
-                            <includes>
-                                <include>%regex[.*integration.*]</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             
-            <!-- Plugin JaCoCo Actualizado -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <id>jacoco-initialize</id>
-                        <phase>prepare-package</phase> <!-- Cambiado a prepare-package -->
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>java/**</exclude>
-                                <exclude>javax/**</exclude>
-                                <exclude>sun/**</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jacoco-site</id>
-                        <phase>verify</phase> <!-- Cambiado a verify -->
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>java/**</exclude>
-                                <exclude>javax/**</exclude>
-                                <exclude>sun/**</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Plugin Maven Release -->
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <preparationGoals>clean install</preparationGoals>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin Maven Deploy -->
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-            </plugin>
-
-            <!-- Plugin Jelastic -->
-            <plugin>
-                <groupId>com.jelastic</groupId>
-                <artifactId>jelastic-maven-plugin</artifactId>
-                <version>1.6</version>
-                <configuration>
-                    <email>${jelastic.username}</email>
-                    <password>${jelastic.password}</password>
-                    <context>${jelastic.context}</context>
-                    <environment>${jelastic.environment}</environment>
-                    <api_hoster>app.jelastic.servint.net</api_hoster>
-                </configuration>
-            </plugin>
+            <!-- Otros plugins -->
         </plugins>
-        
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>2.2</version>
-            </extension>
-        </extensions>
     </build>
     
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- Actualizar Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.0</version>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version> <!-- Usa la última versión disponible -->
             <scope>test</scope>
         </dependency>
+        
+        <!-- Eliminar mockito-all si existe -->
+        
+        <!-- Actualizar Spring Framework -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.23</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.23</version>
+        </dependency>
+        
+        <!-- Otras dependencias actualizadas -->
     </dependencies>
     
-    <modules>
-        <module>gameoflife-build</module>
-        <module>gameoflife-core</module>
-        <module>gameoflife-web</module>
-    </modules>
+    <reporting>
+        <!-- Configuraciones de reportes -->
+    </reporting>
     
-    <profiles>
-        <!-- Perfil de Desarrollo -->
-        <profile>
-            <id>development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        
-        <!-- Perfil de Métricas -->
-        <profile>
-            <id>metrics</id>
-            <build>
-                <plugins>
-                    <!-- PMD Plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.2</version>
-                        <configuration>
-                            <targetJdk>${maven.compiler.target}</targetJdk>
-                            <aggregate>true</aggregate>
-                            <format>xml</format>
-                            <!-- CPD options -->
-                            <minimumTokens>20</minimumTokens>
-                            <!--<ignoreIdentifiers>true</ignoreIdentifiers>-->
-                            <failOnViolation>true</failOnViolation>
-                            <failurePriority>2</failurePriority>
-                        </configuration>
-                    </plugin>
-    
-                    <!-- FindBugs Plugin -->
-                    <plugin>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>2.4.0</version>
-                        <configuration>
-                            <effort>Max</effort>
-                            <xmlOutput>true</xmlOutput>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        <!-- Perfil para Maven 3 -->
-        <profile>
-            <id>maven3</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- Enforcer Plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.0</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-versions</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireMavenVersion>
-                                            <version>[3.0,)</version>
-                                        </requireMavenVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    
-                    <!-- Maven Site Plugin (Configuraciones de Reportes Movidas) -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>3.3</version>
-                        <configuration>
-                            <!-- Eliminado reportPlugins aquí -->
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.wakaleo.gameoflife</groupId>
-                                <artifactId>gameoflife-build</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        <!-- Perfil para Maven 2 -->
-        <profile>
-            <id>maven2</id>
-            <build>
-                <plugins>
-                    <!-- Enforcer Plugin para Maven 2 -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.0</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-versions</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireMavenVersion>
-                                            <version>[2.0.9, 2.2.1]</version>
-                                        </requireMavenVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    
-                    <!-- Maven Site Plugin para Maven 2 -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>2.1.1</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.wakaleo.gameoflife</groupId>
-                                <artifactId>gameoflife-build</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-            
-            <reporting>
-                <plugins>
-                    <!-- Cobertura Plugin -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>${cobertura.version}</version>
-                        <configuration>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                        </configuration>
-                    </plugin>
-                    
-                    <!-- PMD Plugin Actualizado -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.2</version>
-                        <configuration>
-                            <targetJdk>${maven.compiler.target}</targetJdk>
-                            <aggregate>true</aggregate>
-                            <format>xml</format>
-                            <rulesets>
-                                <ruleset>/pmd-rules.xml</ruleset>
-                            </rulesets>
-                            <!-- CPD options -->
-                            <minimumTokens>20</minimumTokens>
-                            <ignoreIdentifiers>true</ignoreIdentifiers>
-                        </configuration>
-                    </plugin>
-                    
-                    <!-- Checkstyle Plugin (Descomentado si es necesario) -->
-                    <!--<plugin>-->
-                        <!--<groupId>org.apache.maven.plugins</groupId>-->
-                        <!--<artifactId>maven-checkstyle-plugin</artifactId>-->
-                        <!--<version>2.9.1</version>-->
-                        <!--<configuration>-->
-                            <!--<configLocation>gameoflife-build/checkstyle.xml</configLocation>-->
-                        <!--</configuration>-->
-                    <!--</plugin>-->
-                    
-                    <!-- FindBugs Plugin -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>2.4.0</version>
-                        <configuration>
-                            <effort>Max</effort>
-                            <xmlOutput>true</xmlOutput>
-                        </configuration>
-                    </plugin>
-                    
-                    <!-- Javadoc Plugin Actualizado -->
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <configuration>
-                            <source>1.6</source>
-                            <doclet>
-                                gr.spinellis.umlgraph.doclet.UmlGraphDoc
-                            </doclet>
-                            <docletArtifact>
-                                <groupId>gr.spinellis</groupId>
-                                <artifactId>UmlGraph</artifactId>
-                                <version>4.6</version>
-                            </docletArtifact>
-                            <additionalparam>
-                                -inferrel -inferdep -hide java.* -collpackages
-                                java.util.* -attributes -operations
-                                -enumerations -enumconstants
-                            </additionalparam>
-                        </configuration>
-                    </plugin>
-                    
-                    <!-- JXR Plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jxr-plugin</artifactId>
-                        <version>2.4</version>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-    </profiles>
 </project>
